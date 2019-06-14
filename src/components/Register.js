@@ -15,12 +15,17 @@ class Register extends React.Component {
     isFormValid = () => {
         let errors = [];
         let error;
+
+        const { password, passwordConfirmation } = this.state;
         
         if(this.isFormEmpty(this.state)) {
             error = { message: 'Fill in all fields' }
             this.setState({ errors: errors.concat(error) });
             return false;
-
+        } else if (password !== passwordConfirmation) {
+            error = { message: "Passwords don't match" }
+            this.setState({ errors: errors.concat(error) })
+            return false;
         } else if (!this.isPasswordValid(this.state)) {
             error = { message: 'Password is invalid' }
             this.setState({ errors: errors.concat(error) })
@@ -43,7 +48,7 @@ class Register extends React.Component {
         return !username.length || !email.length || !password.length || !passwordConfirmation.length
     }
 
-    
+    displayErrors = errors => errors.map((error, index) => <p key={index}>{error.message}</p>)
 
     handleChange = event => {
         this.setState({
@@ -58,7 +63,7 @@ class Register extends React.Component {
                             .auth()
                             .createUserWithEmailAndPassword(this.state.email, this.state.password)
     
-                console.log(data);
+            console.log(data);
                 // .then(createdUser => {
                 //     console.log(createdUser)
                 // })
@@ -70,7 +75,7 @@ class Register extends React.Component {
     }
 
     render() {
-        const {username, email, password, passwordConfirmation} = this.state;
+        const { username, email, password, passwordConfirmation, errors } = this.state;
         return (
             <Grid textAlign="center" verticalAlign="middle" className="app">
                 <Grid.Column style={{ maxWidth: 450 }}>
@@ -95,6 +100,12 @@ class Register extends React.Component {
                             <Button color="orange" fluid size="large">Submit</Button> 
                         </Segment>
                     </Form>
+                    {errors.length > 0 && (
+                        <Message error>
+                            <h3>Error</h3>
+                            {this.displayErrors(errors)}
+                        </Message>
+                    )}
                     <Message>Already a user? <Link to="/login">Login</Link></Message>
                 </Grid.Column>
             </Grid>
