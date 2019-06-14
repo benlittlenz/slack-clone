@@ -8,10 +8,42 @@ class Register extends React.Component {
         username: '',
         email: '',
         password: '',
-        passwordConfirmation: ''
+        passwordConfirmation: '',
+        errors: []
     }
 
+    isFormValid = () => {
+        let errors = [];
+        let error;
+        
+        if(this.isFormEmpty(this.state)) {
+            error = { message: 'Fill in all fields' }
+            this.setState({ errors: errors.concat(error) });
+            return false;
 
+        } else if (!this.isPasswordValid(this.state)) {
+            error = { message: 'Password is invalid' }
+            this.setState({ errors: errors.concat(error) })
+            return false;
+
+        } else return true;
+    }
+
+    isPasswordValid = ({ password, passwordConfirmation }) => {
+        if(password.length < 6 || passwordConfirmation.length < 6) {
+            return false
+        } else if (password !== passwordConfirmation) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    isFormEmpty = ({ username, email, password, passwordConfirmation }) => {
+        return !username.length || !email.length || !password.length || !passwordConfirmation.length
+    }
+
+    
 
     handleChange = event => {
         this.setState({
@@ -20,19 +52,21 @@ class Register extends React.Component {
     }
 
     handleSubmit = async event => {
-        if(this.isFormValid());
-        event.preventDefault();
-        const data = await firebase
-                        .auth()
-                        .createUserWithEmailAndPassword(this.state.email, this.state.password)
-
-            console.log(data);
-            // .then(createdUser => {
-            //     console.log(createdUser)
-            // })
-            // .catch(err => {
-            //     console.error(err);
-            // })
+        if(this.isFormValid()) {
+            event.preventDefault();
+            const data = await firebase
+                            .auth()
+                            .createUserWithEmailAndPassword(this.state.email, this.state.password)
+    
+                console.log(data);
+                // .then(createdUser => {
+                //     console.log(createdUser)
+                // })
+                // .catch(err => {
+                //     console.error(err);
+                // })
+        }
+        
     }
 
     render() {
