@@ -11,7 +11,8 @@ class Register extends React.Component {
         password: '',
         passwordConfirmation: '',
         errors: [],
-        loading: false
+        loading: false,
+        usersRef: firebase.database().ref('users')
     }
 
     isFormValid = () => {
@@ -94,8 +95,11 @@ class Register extends React.Component {
         
     }
 
-    saveUser = user => {
-
+    saveUser = createUser => {
+        return this.state.usersRef.child(createUser.user.uid).set({
+            name: createUser.user.displayName,
+            avatar: createUser.user.photoURL
+        });
     }
 
     render() {
