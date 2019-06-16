@@ -12,8 +12,6 @@ class Login extends React.Component {
         loading: false,
     }
 
-
-
     displayErrors = errors => errors.map((error, index) => <p key={index}>{error.message}</p>)
 
     handleChange = event => {
