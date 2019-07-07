@@ -54,22 +54,7 @@ class Channels extends React.Component {
             })
             .catch(err => console.error(err))
     }
-
-    displayChannels = channels => {
-        channels.length > 0 && channels.map(channel => (
-            <Menu.Item
-                key={channel.id}
-                onClick={() => console.log(channel)}
-                name={channel.name}
-                style={{ opacity: 0.7 }}
-            >
-                # {channel.name}
-                dghfgfhghfdfgh
-            </Menu.Item>
-        ))
-        
-    }
-
+    
     handleSubmit = event => {
         event.preventDefault();
         if(this.isFormValid(this.state)) {
@@ -93,7 +78,19 @@ class Channels extends React.Component {
                         </span>
                         ({ channels.length }) <Icon name="add" onClick={this.openModal} />
                     </Menu.Item>
-                    {this.displayChannels(channels)}
+                    {channels.length > 0 && channels.map(channel => {
+                        return (
+                            <Menu.Item
+                                key={channel.id}
+                                onClick={() => console.log(channel)}
+                                name={channel.name}
+                                style={{ opacity: 0.7 }}
+                            >
+                                # {channel.name}
+                            </Menu.Item>
+                        )
+                    })}
+
                 </Menu.Menu>
                 <Modal basic open={modal} onClose={this.closeModal}>
                     <Modal.Header>Add a Channel</Modal.Header>
