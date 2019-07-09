@@ -23,19 +23,18 @@ class Channels extends React.Component {
         let loadedChannels = [];
         this.state.channelsRef.on('child_added', snap => {
             loadedChannels.push(snap.val());
-            this.setState({ channels: loadedChannels });
+            this.setState({ channels: loadedChannels }, () => this.setFirstChannel());
         })
-        //, () => this.setFirstChannel()
     }
 
-    // setFirstChannel = () => {
-    //     const { firstLoad, channels } = this.state;
-    //     const firstChannel = channels[0]
-    //     if(firstLoad && channels.length > 0) {
-    //         this.props.setCurrentChannel(firstChannel);
-    //     }
-    //     this.setState({ firstLoad: false })
-    // }
+    setFirstChannel = () => {
+        const { firstLoad, channels } = this.state;
+        const firstChannel = channels[0]
+        if(firstLoad && channels.length > 0) {
+            this.props.setCurrentChannel(firstChannel);
+        }
+        this.setState({ firstLoad: false })
+    }
 
     closeModal = () => this.setState({ modal: false });
     openModal = () => this.setState({ modal: true });
