@@ -7,6 +7,7 @@ import { Menu, Icon, Modal, Form, Input, Button } from 'semantic-ui-react';
 class Channels extends React.Component {
     state = {
         user: this.props.currentUser,
+        activeChannel: '',
         channels: [],
         channelName: '',
         channelDetails: '',
@@ -32,6 +33,7 @@ class Channels extends React.Component {
         const firstChannel = channels[0]
         if(firstLoad && channels.length > 0) {
             this.props.setCurrentChannel(firstChannel);
+            this.setActiveChannel(firstChannel);
         }
         this.setState({ firstLoad: false })
     }
@@ -44,7 +46,14 @@ class Channels extends React.Component {
     }
 
     changeChannel = channel => {
+        this.setActiveChannel(channel);
         this.props.setCurrentChannel(channel);
+    }
+
+    setActiveChannel = channel => {
+        this.setState({
+            activeChannel: channel.id
+        })
     }
 
     addChannel = () => {
@@ -82,7 +91,7 @@ class Channels extends React.Component {
 
     render() {
         console.log(this.state.channels)
-        const { channels, modal } = this.state;
+        const { channels, modal, activeChannel } = this.state;
         return (
             <React.Fragment>
                 <Menu.Menu
@@ -101,6 +110,7 @@ class Channels extends React.Component {
                                 onClick={() => this.changeChannel(channel)}
                                 name={channel.name}
                                 style={{ opacity: 0.7 }}
+                                active={channel.id === activeChannel}
                             >
                                 # {channel.name}
                             </Menu.Item>
