@@ -21,8 +21,6 @@ const store = createStore((rootReducer), composeWithDevTools());
 
 class Root extends React.Component {
     componentDidMount() {
-        console.log(this.props.isLoading)
-        console.log(this.props)
         firebase.auth().onAuthStateChanged(user => {
           if (user) {
             console.log(user)
@@ -35,7 +33,6 @@ class Root extends React.Component {
         })
       }
     render() {
-        console.log(this.props.isLoading)
         return this.props.isLoading ? <Spinner /> : (
             <Router>
                 <Switch>

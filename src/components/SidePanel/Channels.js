@@ -84,7 +84,6 @@ class Channels extends React.Component {
             .then(() => {
                 this.setState({ channelName: '', channelDetails: '' });
                 this.closeModal();
-                console.log('channel added')
             })
             .catch(err => console.error(err))
     }
@@ -99,7 +98,6 @@ class Channels extends React.Component {
     isFormValid = ({ channelName, channelDetails }) => channelName && channelDetails
 
     render() {
-        console.log(this.state.channels)
         const { channels, modal, activeChannel } = this.state;
         return (
             <React.Fragment>
